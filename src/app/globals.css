@@ -1,26 +1,179 @@
 @import "tailwindcss";
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --midnight: #f8fafc;
+  --midnight-light: #f1f5f9;
+  --midnight-card: #ffffff;
+  --circuit-green: #059669;
+  --circuit-green-dim: #10b981;
+  --circuit-green-glow: rgba(16, 185, 129, 0.2);
+  --electric-blue: #0284c7;
+  --electric-blue-dim: #0ea5e9;
+  --electric-blue-glow: rgba(14, 165, 233, 0.2);
+  --slate: #475569;
+  --slate-light: #64748b;
+  --white: #0f172a;
+  --text-bright: #1e293b;
+}
+
+.dark {
+  --midnight: #0a0e27;
+  --midnight-light: #111638;
+  --midnight-card: #151a3a;
+  --circuit-green: #00ff88;
+  --circuit-green-dim: #00cc6a;
+  --circuit-green-glow: rgba(0, 255, 136, 0.3);
+  --electric-blue: #00d4ff;
+  --electric-blue-dim: #0099cc;
+  --electric-blue-glow: rgba(0, 212, 255, 0.3);
+  --slate: #8892b0;
+  --slate-light: #a8b2d1;
+  --white: #e6f1ff;
+  --text-bright: #ccd6f6;
 }
 
 @theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  --color-midnight: var(--midnight);
+  --color-midnight-light: var(--midnight-light);
+  --color-midnight-card: var(--midnight-card);
+  --color-circuit-green: var(--circuit-green);
+  --color-circuit-green-dim: var(--circuit-green-dim);
+  --color-electric-blue: var(--electric-blue);
+  --color-electric-blue-dim: var(--electric-blue-dim);
+  --color-slate: var(--slate);
+  --color-slate-light: var(--slate-light);
+  --color-white-custom: var(--white);
+  --color-text-bright: var(--text-bright);
+  --font-heading: var(--font-montserrat);
+  --font-mono: var(--font-jetbrains);
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+/* Custom Scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+}
+::-webkit-scrollbar-track {
+  background: var(--midnight);
+}
+::-webkit-scrollbar-thumb {
+  background: var(--circuit-green-dim);
+  border-radius: 4px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: var(--circuit-green);
+}
+
+/* Selection */
+::selection {
+  background: rgba(0, 255, 136, 0.2);
+  color: var(--white);
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  background: var(--midnight);
+  color: var(--slate);
+  font-family: var(--font-montserrat), system-ui, sans-serif;
+  overflow-x: hidden;
+}
+
+/* Glassmorphism */
+.glass {
+  background: color-mix(in srgb, var(--midnight-light) 60%, transparent);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid color-mix(in srgb, var(--circuit-green) 10%, transparent);
+}
+
+.glass-strong {
+  background: color-mix(in srgb, var(--midnight-light) 85%, transparent);
+  backdrop-filter: blur(30px);
+  -webkit-backdrop-filter: blur(30px);
+  border: 1px solid color-mix(in srgb, var(--circuit-green) 15%, transparent);
+}
+
+/* Glow Effects */
+.glow-green {
+  text-shadow: 0 0 10px var(--circuit-green-glow),
+               0 0 20px var(--circuit-green-glow),
+               0 0 40px var(--circuit-green-glow);
+}
+
+.glow-blue {
+  text-shadow: 0 0 10px var(--electric-blue-glow),
+               0 0 20px var(--electric-blue-glow);
+}
+
+.glow-border-green {
+  box-shadow: 0 0 15px var(--circuit-green-glow),
+              inset 0 0 15px rgba(0, 255, 136, 0.05);
+}
+
+.glow-border-blue {
+  box-shadow: 0 0 15px var(--electric-blue-glow),
+              inset 0 0 15px rgba(0, 212, 255, 0.05);
+}
+
+/* Marquee Animation */
+@keyframes marquee {
+  0% { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
+}
+
+.animate-marquee {
+  animation: marquee 30s linear infinite;
+}
+
+.animate-marquee:hover {
+  animation-play-state: paused;
+}
+
+/* Float Animation */
+@keyframes float {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-10px); }
+}
+
+.animate-float {
+  animation: float 6s ease-in-out infinite;
+}
+
+/* Pulse Glow */
+@keyframes pulse-glow {
+  0%, 100% {
+    box-shadow: 0 0 20px var(--circuit-green-glow);
+  }
+  50% {
+    box-shadow: 0 0 40px var(--circuit-green-glow),
+                0 0 60px rgba(0, 255, 136, 0.15);
+  }
+}
+
+.animate-pulse-glow {
+  animation: pulse-glow 3s ease-in-out infinite;
+}
+
+/* Circuit trace animation */
+@keyframes trace {
+  0% { stroke-dashoffset: 1000; }
+  100% { stroke-dashoffset: 0; }
+}
+
+.animate-trace {
+  stroke-dasharray: 1000;
+  stroke-dashoffset: 1000;
+  animation: trace 3s ease-out forwards;
+}
+
+/* Smooth section scroll */
+html {
+  scroll-behavior: smooth;
+  scroll-padding-top: 80px;
+}
+
+/* Grid pattern background */
+.circuit-grid {
+  background-image:
+    linear-gradient(rgba(0, 255, 136, 0.03) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(0, 255, 136, 0.03) 1px, transparent 1px);
+  background-size: 60px 60px;
 }
